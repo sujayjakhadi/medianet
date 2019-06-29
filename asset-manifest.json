@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/medianet/static/css/main.11ca88e0.chunk.css",
-    "main.js": "/medianet/static/js/main.60524b1a.chunk.js",
-    "main.js.map": "/medianet/static/js/main.60524b1a.chunk.js.map",
+    "main.js": "/medianet/static/js/main.4345a338.chunk.js",
+    "main.js.map": "/medianet/static/js/main.4345a338.chunk.js.map",
     "runtime~main.js": "/medianet/static/js/runtime~main.b146db80.js",
     "runtime~main.js.map": "/medianet/static/js/runtime~main.b146db80.js.map",
     "static/css/2.39bbabe8.chunk.css": "/medianet/static/css/2.39bbabe8.chunk.css",
     "static/js/2.6db17712.chunk.js": "/medianet/static/js/2.6db17712.chunk.js",
     "static/js/2.6db17712.chunk.js.map": "/medianet/static/js/2.6db17712.chunk.js.map",
     "index.html": "/medianet/index.html",
-    "precache-manifest.467d77f0f255bf45bb3f2c5ef1628c4a.js": "/medianet/precache-manifest.467d77f0f255bf45bb3f2c5ef1628c4a.js",
+    "precache-manifest.e4ed5f2ec182237416b1661e56389501.js": "/medianet/precache-manifest.e4ed5f2ec182237416b1661e56389501.js",
     "service-worker.js": "/medianet/service-worker.js",
     "static/css/2.39bbabe8.chunk.css.map": "/medianet/static/css/2.39bbabe8.chunk.css.map",
     "static/css/main.11ca88e0.chunk.css.map": "/medianet/static/css/main.11ca88e0.chunk.css.map"
