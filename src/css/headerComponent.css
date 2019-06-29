@@ -1,0 +1,11 @@
+.header-container {
+  background-color: #282c34;
+  height: 50px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.header-container h3 {
+  color: white;
+  padding: 8px;
+}
