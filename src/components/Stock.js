@@ -107,7 +107,7 @@ export default class Stock extends Component {
 		return(
 			<Fragment>
 				<div>
-					<Websocket url='wss://stocks.mnet.website' onMessage={this.handleData.bind(this)}/>
+					<Websocket url='ws://stocks.mnet.website' onMessage={this.handleData.bind(this)}/>
 				</div>
 				<div className = "table-container">
 					<Table pagination={{ pageSize: 25 }} size = "small" columns ={this.getColumns()} dataSource = {this.state.liveData} bordered />

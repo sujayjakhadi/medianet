@@ -13,6 +13,8 @@
     "react-websocket": "^2.0.1"
   },
   "scripts": {
+    "pretty": "prettier --write --tab-width 4 \"src/**/*.js\"",
+    "precommit": "lint-staged && npm test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
@@ -20,8 +22,19 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "lint-staged": {
+    "*.js": [
+        "npm run pretty",
+        "git add"
+    ]
+  },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "browserslist": {
     "production": [
@@ -34,5 +47,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^2.7.0",
+    "prettier": "^1.18.2"
   }
 }
