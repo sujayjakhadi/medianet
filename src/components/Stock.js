@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { Table, Icon, Drawer, List } from "antd";
-import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
+import { Table, Icon, Drawer, List, notification, Modal } from "antd";
 import Websocket from "react-websocket";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip
+} from 'recharts';
 import "./../css/stock.css";
 
 export default class Stock extends Component {
@@ -67,12 +69,7 @@ export default class Stock extends Component {
                 dataIndex: "prevValues",
                 width: "25%",
                 render: (text, record) => (
-                    <Sparklines
-                        data={[[...text].reverse(), record.value].flat()}
-                    >
-                        <SparklinesLine color="#468bc9" />
-                        <SparklinesSpots />
-                    </Sparklines>
+                	<Icon type="line-chart" onClick = {() => this.chartClicked(record)} />
                 )
             }
         ];
@@ -92,10 +89,26 @@ export default class Stock extends Component {
         return input.toLocaleString();
     }
 
+    chartClicked(record) {
+    	let recordObj = record.prevValues.map(obj => { return {prices: obj}});
+    	let trendsRecord = [[...recordObj].reverse(), {prices: record.value}].flat()
+    	this.setState({
+    		trendsRecord: trendsRecord,
+    		trendsVisible:record.ticker
+    	})
+    }
+
+    hideTrends() {
+    	this.setState({
+    		trendsVisible:false,
+    		trendsRecord: null
+    	})
+    }
+
     handleData(res) {
         let data = JSON.parse(res),
             liveData = [...this.state.liveData];
-        data.map(obj => {
+        data.forEach(obj => {
             let index = this.indexArr.indexOf(obj[0]);
             if (index === -1) {
                 this.indexArr.push(obj[0]);
@@ -128,13 +141,31 @@ export default class Stock extends Component {
         });
     }
 
+    socketConnected() {
+    	notification.success({
+		    message: 'Socket Connected', 
+		    description:
+		      'Web Socket connection established successfully',
+		  });
+    }
+
+    socketDisconnected() {
+    	notification.error({
+		    message: 'Socket Disconnected',
+		    description:
+		      'Web Socket connection dropped',
+		  });
+    }
+
     render() {
         return (
             <Fragment>
                 <div>
                     <Websocket
                         url="ws://stocks.mnet.website"
-                        onMessage={this.handleData.bind(this)}
+                        onMessage={(res) => this.handleData(res)}
+                        onOpen = {() => this.socketConnected()}
+                        onClose = {() => this.socketDisconnected()}
                     />
                 </div>
                 <div className="table-container">
@@ -146,6 +177,7 @@ export default class Stock extends Component {
                         bordered
                     />
                 </div>
+
                 <Drawer
                     title={`${this.state.popTicker}: History`}
                     placement="right"
@@ -164,6 +196,34 @@ export default class Stock extends Component {
                         )}
                     />
                 </Drawer>
+                {this.state.trendsVisible &&
+                <Modal
+		          title={`Trends: ${this.state.trendsVisible.toUpperCase()}`}
+		          visible={this.state.trendsVisible}
+		          onCancel = {() => this.hideTrends()}
+		          footer={[]}
+		        >
+		          {this.state.trendsRecord && 
+
+		          	<LineChart
+				        width={500}
+				        height={300}
+				        data={this.state.trendsRecord}
+				        margin={{
+				          top: 5, right: 30, left: 20, bottom: 5,
+				        }}
+				      >
+				        <CartesianGrid strokeDasharray="3 3" />
+				        <XAxis />
+				        <YAxis dataKey="prices" />
+				        <Tooltip />
+				        <Line type="monotone" dataKey="prices" stroke="#8884d8" />
+				        
+				      </LineChart>
+
+                }
+		        </Modal>
+		    }
             </Fragment>
         );
     }

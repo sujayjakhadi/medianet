@@ -9,14 +9,12 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "react-sparklines": "^1.7.0",
-    "react-websocket": "^2.0.1"
+    "react-websocket": "^2.0.1",
+    "recharts": "^1.6.2"
   },
-
   "scripts": {
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
     "pretty": "prettier --write --tab-width 4 \"src/**/*.js\"",
-    
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
@@ -24,17 +22,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "husky": {
-    "hooks":{
-       "pre-commit": "npm run pretest && npm run pretty"
-     }
+    "hooks": {
+      "pre-commit": "npm run pretest && npm run pretty"
+    }
   },
-  
   "eslintConfig": {
     "extends": "react-app"
   },
-  
   "browserslist": {
     "production": [
       ">0.2%",
