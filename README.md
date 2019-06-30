@@ -6,10 +6,6 @@ Ant Design<br>
 ReCharts<br>
 react-websocket<br>
 
-
-In the project directory, you can run:
-
-
 ## Build Information
 
 This app has been published on https://sujayjakhadi.github.io/medianet/. But since the websocket url is not secured, the connection can not be established via https. As github pages enforces https, a secured socket will be required for a successful connection.
