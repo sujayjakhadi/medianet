@@ -27,3 +27,7 @@
   background-color: #5cb85c;
   color: white
 }
+
+.table-container .ant-table .ant-table-content .ant-table-body {
+  margin: 0;
+}

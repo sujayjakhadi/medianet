@@ -2,8 +2,13 @@ import React, { Component, Fragment } from "react";
 import { Table, Icon, Drawer, List, notification, Modal } from "antd";
 import Websocket from "react-websocket";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip
-} from 'recharts';
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip
+} from "recharts";
 import "./../css/stock.css";
 
 export default class Stock extends Component {
@@ -67,9 +72,12 @@ export default class Stock extends Component {
             {
                 title: "Trends",
                 dataIndex: "prevValues",
-                width: "25%",
+                width: "10%",
                 render: (text, record) => (
-                	<Icon type="line-chart" onClick = {() => this.chartClicked(record)} />
+                    <Icon
+                        type="line-chart"
+                        onClick={() => this.showTrends(record)}
+                    />
                 )
             }
         ];
@@ -89,20 +97,25 @@ export default class Stock extends Component {
         return input.toLocaleString();
     }
 
-    chartClicked(record) {
-    	let recordObj = record.prevValues.map(obj => { return {prices: obj}});
-    	let trendsRecord = [[...recordObj].reverse(), {prices: record.value}].flat()
-    	this.setState({
-    		trendsRecord: trendsRecord,
-    		trendsVisible:record.ticker
-    	})
+    showTrends(record) {
+        let recordObj = record.prevValues.map(obj => {
+            return { prices: obj };
+        });
+        let trendsRecord = [
+            [...recordObj].reverse(),
+            { prices: record.value }
+        ].flat();
+        this.setState({
+            trendsRecord: trendsRecord,
+            trendsVisible: record.ticker
+        });
     }
 
     hideTrends() {
-    	this.setState({
-    		trendsVisible:false,
-    		trendsRecord: null
-    	})
+        this.setState({
+            trendsVisible: false,
+            trendsRecord: null
+        });
     }
 
     handleData(res) {
@@ -142,19 +155,17 @@ export default class Stock extends Component {
     }
 
     socketConnected() {
-    	notification.success({
-		    message: 'Socket Connected', 
-		    description:
-		      'Web Socket connection established successfully',
-		  });
+        notification.success({
+            message: "Socket Connected",
+            description: "Web Socket connection established successfully"
+        });
     }
 
     socketDisconnected() {
-    	notification.error({
-		    message: 'Socket Disconnected',
-		    description:
-		      'Web Socket connection dropped',
-		  });
+        notification.error({
+            message: "Socket Disconnected",
+            description: "Web Socket connection dropped"
+        });
     }
 
     render() {
@@ -163,9 +174,9 @@ export default class Stock extends Component {
                 <div>
                     <Websocket
                         url="ws://stocks.mnet.website"
-                        onMessage={(res) => this.handleData(res)}
-                        onOpen = {() => this.socketConnected()}
-                        onClose = {() => this.socketDisconnected()}
+                        onMessage={res => this.handleData(res)}
+                        onOpen={() => this.socketConnected()}
+                        onClose={() => this.socketDisconnected()}
                     />
                 </div>
                 <div className="table-container">
@@ -196,34 +207,38 @@ export default class Stock extends Component {
                         )}
                     />
                 </Drawer>
-                {this.state.trendsVisible &&
-                <Modal
-		          title={`Trends: ${this.state.trendsVisible.toUpperCase()}`}
-		          visible={this.state.trendsVisible}
-		          onCancel = {() => this.hideTrends()}
-		          footer={[]}
-		        >
-		          {this.state.trendsRecord && 
-
-		          	<LineChart
-				        width={500}
-				        height={300}
-				        data={this.state.trendsRecord}
-				        margin={{
-				          top: 5, right: 30, left: 20, bottom: 5,
-				        }}
-				      >
-				        <CartesianGrid strokeDasharray="3 3" />
-				        <XAxis />
-				        <YAxis dataKey="prices" />
-				        <Tooltip />
-				        <Line type="monotone" dataKey="prices" stroke="#8884d8" />
-				        
-				      </LineChart>
-
-                }
-		        </Modal>
-		    }
+                {this.state.trendsVisible && (
+                    <Modal
+                        title={`Trends: ${this.state.trendsVisible.toUpperCase()}`}
+                        visible={this.state.trendsVisible}
+                        onCancel={() => this.hideTrends()}
+                        footer={[]}
+                    >
+                        {this.state.trendsRecord && (
+                            <LineChart
+                                width={500}
+                                height={300}
+                                data={this.state.trendsRecord}
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis />
+                                <YAxis dataKey="prices" />
+                                <Tooltip />
+                                <Line
+                                    type="monotone"
+                                    dataKey="prices"
+                                    stroke="#8884d8"
+                                />
+                            </LineChart>
+                        )}
+                    </Modal>
+                )}
             </Fragment>
         );
     }
